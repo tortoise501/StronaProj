@@ -107,15 +107,16 @@ main{
 #page-nav ol {
     padding: 1em;
     margin: 1em;
-    font-size: 0.7em;
+    font-size: 1em;
     margin-top:30px;
 
 }
 
 #page-nav a{
     margin: 5px;
-    font-size: 0.8em;
+    font-size: 1.3em;
 }
+
 
 
 
@@ -126,18 +127,12 @@ main{
     background-color: var(--color-content-bg);
     width: 60%;
     height: 100%;
+    font-size: x-large;
 }
-
-#cat{
-    background-color: var(--color-cat-bg);
-    border: 1px var(--color-cat-border) solid;
-    width: 20%;
-    height: 100%;
-    position: fixed;
-    right: 0;
+#content img{
+    max-width: 100%;
+    max-height: 300px;
 }
-
-
 #content section{
     outline: 1px var(--color-content-border) solid;
     margin-bottom: 10px;
@@ -164,3 +159,22 @@ main{
     list-style-type: "- ";
     color: crimson;
 }
+
+
+
+
+
+#cat{
+    background-color: var(--color-cat-bg);
+    border: 1px var(--color-cat-border) solid;
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    right: 0;
+}
+
+#cat img {
+    object-fit: contain;
+    height: 100%;
+}
+

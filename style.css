@@ -3,16 +3,30 @@
     /* padding: 0; */
 
     --color-nav-bt: wheat;
-    --color-nav-bt-border: wheat;
-    --color-nav-bt-text: wheat;
-    --color-nav-bc:white;
+    --color-nav-bt-border: blue;
+    --color-nav-bt-text: black;
+    --color-nav-bg: lightblue;
+    /* https://cssgradient.io/ */
     
-    --color-pagenav-bc:white;
-    --color-pagenav-text:white;
-    --color-pagenav-border:white;
+    --color-pagenav-bg:beige;
+    --color-pagenav-text:rgb(55, 33, 33);
+    --color-pagenav-border:rgb(55, 33, 33);
+    
+    --color-content-bg:beige;
+    --color-content-section-bg:rgb(245, 231, 220);
+    /* color:beige; */
+    --color-content-border:rgb(55, 33, 33);
+    --color-content-text:rgb(55, 33, 33);
 
-    --color-cat-bc:white;
-    --color-cat-border:white;
+    --color-cat-bg:beige;
+    --color-cat-border:rgb(55, 33, 33);
+    font-family: monospace;
+}
+
+
+body {
+    min-height: 100vh;
+    background-color: lightblue;
 }
 
 
@@ -24,7 +38,7 @@ nav li {
 nav{
     position: fixed;
     width: 100%;
-    background-color: var(--color-nav-bc);
+    background: linear-gradient(180deg, rgba(173,216,230,1) 64%, rgba(255,255,255,0) 79%);
     height: 60px;
     z-index: 10;
 }
@@ -57,10 +71,18 @@ nav{
     border: 3px outset green;
 }
 
-
-body {
-    min-height: 100vh;
-    background-color: gray;
+.nav-element a {
+    color: var(--color-nav-bt-text);
+    text-decoration: none;
+}
+.nav-element a:hover {
+    color: var(--color-nav-bt-text);
+    text-decoration: wavy;
+    background-color: red;
+}
+.nav-element a:visited {
+    color: var(--color-nav-bt-text);
+    text-decoration: none;
 }
 
 main{
@@ -71,30 +93,74 @@ main{
     display: flex;
     gap: 10px;
 }
-main div {
-    
-}
 
 #page-nav{
-    background-color: red;
+    background-color: var(--color-pagenav-bg);
+    border: 1px var(--color-pagenav-border) solid;
     width: 20%;
     height: 100%;
     position: fixed;
+    gap: 5px;
     left:0;
 }
+
+#page-nav ol {
+    padding: 1em;
+    margin: 1em;
+    font-size: 0.7em;
+    margin-top:30px;
+
+}
+
+#page-nav a{
+    margin: 5px;
+    font-size: 0.8em;
+}
+
+
+
 
 #content{
     margin-left: calc(20% + 10px);
     margin-right: calc(20% + 10px);
-    background-color: red;
+    background-color: var(--color-content-bg);
     width: 60%;
     height: 100%;
 }
 
 #cat{
-    background-color: red;
+    background-color: var(--color-cat-bg);
+    border: 1px var(--color-cat-border) solid;
     width: 20%;
     height: 100%;
     position: fixed;
     right: 0;
+}
+
+
+#content section{
+    outline: 1px var(--color-content-border) solid;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: var(--color-content-section-bg);
+}
+#content img {
+    outline: 2px var(--color-content-border) solid;
+}
+#content section p {
+    margin-bottom: 10px;
+}
+#content section h2 {
+    text-align: center;
+    padding: 20px;
+    color:slateblue;
+    text-shadow: 1px 1px 1px  black;
+}
+#content .pluses li {
+    list-style-type: "+ ";
+    color: green;
+}
+#content .minuses li {
+    list-style-type: "- ";
+    color: crimson;
 }

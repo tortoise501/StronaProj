@@ -122,6 +122,7 @@ main{
 
 
 #content{
+    border: 1px var(--color-content-border) solid;
     margin-left: calc(20% + 10px);
     margin-right: calc(20% + 10px);
     background-color: var(--color-content-bg);

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konwertor liczb</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav>
+        <ul id="nav-main-list">
+            <li class="nav-element">
+                <a href="/index.html"><h3>STRONA</h3></a>
+            </li>
+            <li class="nav-element">
+                <h3>Konwertory</h3>
+                <ul class="nav-list">
+                    <li class="nav-element">
+                        <a href="/Konwertory/numbers.html"><h3>Systemy liczbowe</h3></a>
+                    </li>
+                    <li class="nav-element">
+                        <a href="/Konwertory/units.html"><h3>Jednostki pomiaru</h3></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-element">
+                <h3>Kalkulatory</h3>
+                <ul class="nav-list">
+                    <li class="nav-element">
+                        <a href="/Kalkulatory/subnet.html"><h3>Podsieć</h3></a>
+                    </li>
+                    <li class="nav-element">
+                        <a href="/Kalkulatory/triangle.html"><h3>Trójkąt</h3></a>
+                    </li>
+                    <li class="nav-element">
+                        <h3>IDK PLACEHOLDER</h3>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-element">
+                <h3>Informacje</h3>
+                <ul class="nav-list">
+                    <li class="nav-element">
+                        <a href="https://github.com/tortoise501/StronaProj"><h3>Link na GitHub repozytorium</h3></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main>
+        <div id="content">
+            <form onsubmit="return getNetworkData(this.IPAddr.value,this.Mask.value)">
+                ip: <input type="text" name="IPAddr" id="IPAddr" placeholder="192.168.0.5">
+                maska: <input type="number" name="Mask" id="Mask" placeholder="24">
+                <p>adres sieci: <span id="NetworkAddr"></span></p>
+                <p>rozgłoszeniowy adres sieci: <span id="BroadcastAddr"></span></p>
+                <p>maks hostów: <span id="MaxHost"></span></p>
+                <p>pierwszy host: <span id="FirstHost"></span></p>
+                <p>ostatni host: <span id="LastHost"></span></p>
+                <input type="submit" value="Start">
+                <style>
+                    p{
+                        background-color: white;
+                        outline: black 1px solid;
+                        margin: 5px;
+                    }
+                </style>
+            </form>
+        </div>
+    </main>
+    <footer></footer>
+</body>
+</html>
+
+<script>
+    
+    function convert10toX(decNum,XNum){
+        let answer = "";
+        while (decNum > 0) {
+            let remainder = decNum % XNum;
+            decNum = (decNum - remainder) / XNum;
+            answer += remainder.toString(36).toUpperCase();
+            console.log("rm",remainder,"dec",decNum);
+        }
+        return answer.split("").reverse().join("");
+    }
+
+
+
+    function getNetworkData(addr,mask){
+        let maxHost = Math.pow(2,32 - mask) - 2;
+        addr = convertAddrToBin(addr);
+        mask = cidrToBitMask(mask);
+        let netAddr = getNetworkAddress(addr,mask);
+        let broadAddr = getBroadcastAddress(addr,mask);
+        let firstHost = addOneToAddr(netAddr);
+        let lastHost = removeOneFromAddr(broadAddr);
+        // console.log(addr);
+        // console.log(mask);
+        // console.log(netAddr);
+        // console.log(broadAddr);
+        // console.log(firstHost);
+        // console.log(lastHost);
+        // console.log(maxHost);
+        document.getElementById('NetworkAddr').innerHTML = binAddrToDecAddr(netAddr);
+        document.getElementById('BroadcastAddr').innerHTML = binAddrToDecAddr(broadAddr);
+        document.getElementById('MaxHost').innerHTML = maxHost;
+        document.getElementById('FirstHost').innerHTML = binAddrToDecAddr(firstHost);
+        document.getElementById('LastHost').innerHTML = binAddrToDecAddr(lastHost);
+
+        return false;
+    }
+
+    function binAddrToDecAddr(addr){
+        addr = String(addr).split("");
+        let res = "";
+        for (let i = 0; i < addr.length; i += 8) {
+            if(i != 0) {
+                res += ".";
+            }
+            let octet = addr.slice(i, i + 8);
+            res += parseInt(octet.join(""),2);
+        }
+        return res;
+    }
+
+
+    function addOneToAddr(addr){
+        addr = addr.split("").reverse();
+        for (let i = 0; i < addr.length; i++) {
+            if(addr[i] = "0"){
+                addr[i] = "1";
+                break;
+            }else{
+                addr[i] = "0";
+            }
+        }
+        return addr.reverse().join("");
+    }
+
+    function removeOneFromAddr(addr){
+        addr = addr.split("").reverse();
+        for (let i = 0; i < addr.length; i++) {
+            if(addr[i] = "1"){
+                addr[i] = "0";
+                break;
+            }else{
+                addr[i] = "1";
+            }
+        }
+        return addr.reverse().join("");
+    }
+
+
+    function reverseAddress(addr){
+        addr = addr.split("");
+        for (let i = 0; i < addr.length; i++) {
+            if(addr[i] == "0"){
+                addr[i] = "1";
+            }else{
+                addr[i] = "0";
+            }
+        }
+        return addr.join("");
+    }
+
+    function getBroadcastAddress(addr,mask){
+        let broadAddr = "";
+        addr = addr.split("");
+        reversedMask = reverseAddress(mask);
+        reversedMask = reversedMask.split("");
+        for (let i = 0; i < addr.length; i++) {
+            
+            broadAddr += parseInt(addr[i] | reversedMask[i]);
+        }
+        return broadAddr;
+    }
+
+    function getNetworkAddress(addr,mask){
+        let netAddr = "";
+        addr = addr.split("");
+        mask = mask.split("");
+        for (let i = 0; i < addr.length; i++) {
+            netAddr += parseInt(addr[i] & mask[i]);
+        }
+        return netAddr;
+    }
+
+    function convertAddrToBin(addr){
+        let addrArr = addr.split(".");
+        for (let index = 0; index < addrArr.length; index++) {
+            addrArr[index] = convert10toX(addrArr[index],2);
+            addrArr[index] = "0".repeat(8 - addrArr[index].length) + addrArr[index]; 
+        }
+        addr = addrArr.join("");
+        return addr;
+    }
+
+    function cidrToBitMask(cidr){
+        return "1".repeat(cidr) + "0".repeat(32 - cidr);
+    }
+</script>

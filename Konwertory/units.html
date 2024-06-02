@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konwertor jednostek</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav>
+        <ul id="nav-main-list">
+            <li class="nav-element">
+                <a href="/index.html"><h3>STRONA</h3></a>
+            </li>
+            <li class="nav-element">
+                <h3>Konwertory</h3>
+                <ul class="nav-list">
+                    <li class="nav-element">
+                        <a href="/Konwertory/numbers.html"><h3>Systemy liczbowe</h3></a>
+                    </li>
+                    <li class="nav-element">
+                        <a href="/Konwertory/units.html"><h3>Jednostki pomiaru</h3></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-element">
+                <h3>Kalkulatory</h3>
+                <ul class="nav-list">
+                    <li class="nav-element">
+                        <a href="/Kalkulatory/subnet.html"><h3>Podsieć</h3></a>
+                    </li>
+                    <li class="nav-element">
+                        <a href="/Kalkulatory/triangle.html"><h3>Trójkąt</h3></a>
+                    </li>
+                    <li class="nav-element">
+                        <h3>IDK PLACEHOLDER</h3>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-element">
+                <h3>Informacje</h3>
+                <ul class="nav-list">
+                    <li class="nav-element">
+                        <a href="https://github.com/tortoise501/StronaProj"><h3>Link na GitHub repozytorium</h3></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main>
+        <div id="content">
+            <h1>KONWERTORA JEDNOSTEK NIE ISTNIEJE</h1>
+        </div>
+    </main>
+    <footer></footer>
+</body>
+</html>
+
+<script>
+    var form = document.getElementById("myForm");
+    function handleForm(event) { event.preventDefault(); } 
+    form.addEventListener('submit', handleForm);
+
+    function convert(inputNum,inputType,outputType) {
+        let numInDec = parseInt(inputNum.value,inputType.value);
+        let answer = convert10toX(parseInt(numInDec),parseInt(outputType.value));
+        console.log(answer);
+        let answerField = document.getElementById('outputNumber');
+        answerField.innerHTML = answer;
+        return false;
+    }
+    
+    function convert10toX(decNum,XNum){
+        let answer = "";
+        while (decNum > 0) {
+            let remainder = decNum % XNum;
+            decNum = (decNum - remainder) / XNum;
+            answer += remainder.toString(36).toUpperCase();
+            console.log("rm",remainder,"dec",decNum);
+        }
+        return answer.split("").reverse().join("");
+    }
+
+    function binAddrToDecAddr(addr){
+        addr = addr.split("");
+        let res = "";
+        for (let i = 0; i < addr.length; i += 8) {
+            if(i != 0) {
+                res += ".";
+            }
+            let octet = addr.slice(i, i + 8);
+            res += parseInt(octet.join(""),2);
+        }
+        return res;
+    }
+</script>
